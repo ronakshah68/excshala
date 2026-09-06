@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Excshala — Excel skills for the real finance world</title>
+<style>
+:root{
+ --green:#16A34A;--deep:#166534;--lime:#A3E635;--ink:#17201B;--muted:#66736b;
+ --bg:#F6F8F6;--card:#fff;--line:#E5EAE6;--gold:#FACC15;--amber:#F59E0B;
+ --red:#EF4444;--blue:#3B82F6;--purple:#8B5CF6;
+}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,select{font:inherit} button{cursor:pointer}
+.app{display:flex;min-height:100vh}.sidebar{width:250px;background:#fff;border-right:1px solid var(--line);padding:24px 16px;position:sticky;top:0;height:100vh}
+.logo{font-size:30px;font-weight:900;letter-spacing:-1.5px;color:var(--green)} .logo span{color:#18332a}.tag{font-size:12px;color:var(--muted);margin:4px 0 28px}
+.nav button{width:100%;border:0;background:none;text-align:left;padding:13px 14px;border-radius:12px;margin:3px 0;color:#415048;font-weight:700}
+.nav button.active,.nav button:hover{background:#EAF7EE;color:var(--deep)}
+.sidecard{margin-top:28px;background:#F1FAF3;border:1px solid #D7EFDE;padding:15px;border-radius:16px;font-size:13px}
+.main{flex:1;max-width:1200px;margin:auto;padding:28px 32px 60px}.top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:22px}
+h1{font-size:30px;margin:0;letter-spacing:-1px} h2{margin:0 0 10px} h3{margin:0 0 6px}.muted{color:var(--muted)}
+.pills{display:flex;gap:8px;flex-wrap:wrap}.pill{padding:6px 10px;border-radius:999px;background:#F0F4F1;font-size:12px;font-weight:800}.pill.green{background:#E8F7ED;color:var(--deep)}.pill.gold{background:#FFF7CC}.pill.purple{background:#F0EAFE;color:#6D28D9}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 3px 14px rgba(23,32,27,.035)}
+.col8{grid-column:span 8}.col4{grid-column:span 4}.col6{grid-column:span 6}.col12{grid-column:span 12}
+.hero{background:linear-gradient(135deg,#0E7A3A,#16A34A);color:#fff;border:0;min-height:185px}.hero .muted{color:#D9F5E1}
+.progress{height:9px;background:#DDE7DF;border-radius:99px;overflow:hidden;margin:12px 0}.progress>i{display:block;height:100%;background:var(--green);border-radius:99px}.hero .progress{background:rgba(255,255,255,.24)}.hero .progress>i{background:#D9FF8D}
+.btn{border:0;border-radius:12px;padding:11px 16px;font-weight:850}.primary{background:var(--green);color:#fff}.primary:hover{background:#12833c}.secondary{background:#fff;border:1px solid #CFE0D3;color:var(--deep)}.ghost{background:#F3F6F4;color:#34433b}
+.statrow{display:flex;gap:10px;flex-wrap:wrap}.stat{padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff}.stat b{display:block;font-size:17px}.stat small{color:var(--muted)}
+.search{display:flex;gap:10px;margin:14px 0}.search input{flex:1;border:1px solid #CBD7CE;border-radius:13px;padding:13px 15px;background:#fff;outline:none}.search input:focus{border-color:var(--green);box-shadow:0 0 0 3px #E4F5E9}
+.formula-list{display:grid;gap:10px}.formula{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:15px;border:1px solid var(--line);border-radius:14px;background:#fff}.formula:hover{border-color:#B8DCC1}.formula b{font-size:16px}.formula code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#F2F5F3;padding:3px 7px;border-radius:7px;color:#1F5130}
+.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:4px;margin:10px 0 16px}.tabs button{border:0;background:#EEF2EF;border-radius:999px;padding:8px 13px;font-weight:800;white-space:nowrap}.tabs button.active{background:var(--deep);color:#fff}
+.level{display:flex;align-items:center;gap:14px;padding:15px 0;border-bottom:1px solid var(--line)}.level:last-child{border-bottom:0}.num{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#E8F7ED;color:var(--deep);font-weight:900}.level .grow{flex:1}
+.mission{border:1px solid #E9DDFD;background:#FCFAFF}.mission .badge{color:#6D28D9;background:#EFE8FF}.badge{display:inline-block;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:900}
+textarea{width:100%;min-height:110px;border:1px solid #CBD7CE;border-radius:12px;padding:12px;font-family:ui-monospace,monospace}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left}th{background:#F5F7F5}
+.empty{padding:30px;text-align:center;color:var(--muted)}
+.toast{position:fixed;right:20px;bottom:20px;background:#17201B;color:#fff;padding:12px 16px;border-radius:12px;display:none;z-index:10}
+.mobilebar{display:none}
+@media(max-width:850px){.sidebar{display:none}.main{padding:20px 15px 90px}.col8,.col4,.col6{grid-column:span 12}.mobilebar{display:flex;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);z-index:5;justify-content:space-around;padding:8px}.mobilebar button{border:0;background:none;font-size:11px;font-weight:800;color:#516057}.mobilebar button.active{color:var(--green)}h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="logo">Exc<span>shala</span></div><div class="tag">Excel skills for the real finance world.</div>
+  <nav class="nav" id="sideNav"></nav>
+  <div class="sidecard"><b>🔥 Keep your streak alive</b><p class="muted">Complete today's 5-minute challenge.</p><button class="btn primary" onclick="go('missions')">Start challenge</button></div>
+</aside>
+<main class="main">
+  <div id="view"></div>
+</main>
+</div>
+<div class="mobilebar" id="mobileNav"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const formulas = [
+["SUM","Calculate","Beginner","Adds numbers.","=SUM(A2:A10)","Total sales, costs and balances."],
+["AVERAGE","Analyse","Beginner","Returns the arithmetic mean.","=AVERAGE(B2:B10)","Average revenue or expense."],
+["MAX","Analyse","Beginner","Returns the largest value.","=MAX(B2:B10)","Highest sale, cost or KPI."],
+["MIN","Analyse","Beginner","Returns the smallest value.","=MIN(B2:B10)","Lowest value or exception."],
+["ABS","Calculate","Beginner","Returns absolute value.","=ABS(B2-C2)","Absolute variance."],
+["ROUND","Calculate","Beginner","Rounds a number to chosen digits.","=ROUND(B2,2)","Financial reporting precision."],
+["ROUNDUP","Calculate","Beginner","Rounds away from zero.","=ROUNDUP(B2,0)","Units and conservative estimates."],
+["ROUNDDOWN","Calculate","Beginner","Rounds toward zero.","=ROUNDDOWN(B2,0)","Whole-unit reporting."],
+["INT","Calculate","Beginner","Rounds down to an integer.","=INT(B2)","Whole periods or units."],
+["MOD","Calculate","Beginner","Returns the remainder after division.","=MOD(A2,12)","Period/cycle logic."],
+["PRODUCT","Calculate","Beginner","Multiplies supplied values.","=PRODUCT(B2:C2)","Price × quantity calculations."],
+["POWER","Calculate","Beginner","Raises a number to a power.","=POWER(B2,2)","Growth and modelling."],
+["IF","Logic","Beginner","Returns one result if true and another if false.","=IF(B2>0,\"Profit\",\"Loss\")","Decision rules."],
+["AND","Logic","Beginner","TRUE when all conditions are true.","=AND(B2>0,C2=\"Yes\")","Eligibility checks."],
+["OR","Logic","Beginner","TRUE when any condition is true.","=OR(B2=\"IB\",B2=\"PE\")","Alternative criteria."],
+["NOT","Logic","Beginner","Reverses TRUE/FALSE.","=NOT(B2=\"Closed\")","Exception logic."],
+["IFERROR","Logic","Intermediate","Replaces an error with a chosen result.","=IFERROR(A2/B2,0)","Clean dashboards and models."],
+["COUNT","Analyse","Beginner","Counts numeric cells.","=COUNT(B2:B100)","Count transactions with numbers."],
+["COUNTA","Analyse","Beginner","Counts non-empty cells.","=COUNTA(A2:A100)","Count populated records."],
+["COUNTIF","Analyse","Intermediate","Counts cells matching a condition.","=COUNTIF(C:C,\"Sales\")","Count records by department."],
+["COUNTIFS","Analyse","Intermediate","Counts records meeting multiple criteria.","=COUNTIFS(C:C,\"Sales\",D:D,\"Open\")","Multi-condition reporting."],
+["SUMIF","Analyse","Intermediate","Adds values matching a condition.","=SUMIF(C:C,\"Sales\",D:D)","Department expense totals."],
+["SUMIFS","Analyse","Intermediate","Adds values matching multiple conditions.","=SUMIFS(D:D,C:C,\"Sales\",E:E,\"Jan\")","Monthly finance reporting."],
+["SUMPRODUCT","Analyse","Advanced","Multiplies arrays and sums the results.","=SUMPRODUCT(B2:B10,C2:C10)","Weighted analysis."],
+["SUBTOTAL","Analyse","Intermediate","Calculates a subtotal respecting filters.","=SUBTOTAL(9,D2:D100)","Filtered MIS reports."],
+["LEFT","Clean","Beginner","Returns characters from the left.","=LEFT(A2,3)","Extract codes/prefixes."],
+["RIGHT","Clean","Beginner","Returns characters from the right.","=RIGHT(A2,4)","Extract account suffixes."],
+["MID","Clean","Beginner","Returns characters from the middle.","=MID(A2,4,5)","Extract embedded codes."],
+["LEN","Clean","Beginner","Counts characters.","=LEN(A2)","Validate IDs and text."],
+["FIND","Clean","Intermediate","Finds text position, case-sensitive.","=FIND(\"-\",A2)","Split finance identifiers."],
+["SUBSTITUTE","Clean","Intermediate","Replaces matching text.","=SUBSTITUTE(A2,\"-\",\"/\")","Clean imported data."],
+["REPLACE","Clean","Intermediate","Replaces characters by position.","=REPLACE(A2,1,3,\"FIN\")","Standardise IDs."],
+["TRIM","Clean","Beginner","Removes extra spaces.","=TRIM(A2)","Clean exported data."],
+["CLEAN","Clean","Intermediate","Removes non-printing characters.","=CLEAN(A2)","Clean copied reports."],
+["UPPER","Clean","Beginner","Converts text to uppercase.","=UPPER(A2)","Standardise codes."],
+["LOWER","Clean","Beginner","Converts text to lowercase.","=LOWER(A2)","Normalise emails/text."],
+["PROPER","Clean","Beginner","Capitalises each word.","=PROPER(A2)","Standardise names."],
+["VALUE","Clean","Intermediate","Converts text that represents a number into a number.","=VALUE(A2)","Fix imported numeric text."],
+["TEXT","Clean","Intermediate","Formats a value as text.","=TEXT(B2,\"#,##0\")","Presentation and labels."],
+["DATE","Dates","Beginner","Creates a date from year, month and day.","=DATE(2026,9,30)","Reporting periods."],
+["DAY","Dates","Beginner","Returns day of month.","=DAY(A2)","Date analysis."],
+["MONTH","Dates","Beginner","Returns month number.","=MONTH(A2)","Monthly reporting."],
+["YEAR","Dates","Beginner","Returns year.","=YEAR(A2)","Annual analysis."],
+["EDATE","Dates","Intermediate","Moves a date by months.","=EDATE(A2,3)","Maturity and review dates."],
+["EOMONTH","Dates","Intermediate","Returns month-end date.","=EOMONTH(A2,0)","Month-end close."],
+["NETWORKDAYS","Dates","Intermediate","Counts working days between dates.","=NETWORKDAYS(A2,B2)","SLA and working-day calculations."],
+["WORKDAY","Dates","Intermediate","Returns a date after working days.","=WORKDAY(A2,10)","Project and settlement dates."],
+["WEEKDAY","Dates","Beginner","Returns day-of-week number.","=WEEKDAY(A2,2)","Calendar analysis."],
+["YEARFRAC","Dates","Advanced","Returns fractional years between dates.","=YEARFRAC(A2,B2)","Interest/tenure calculations."],
+["TODAY","Dates","Beginner","Returns today's date.","=TODAY()","Dynamic reporting."],
+["NOW","Dates","Beginner","Returns current date and time.","=NOW()","Timestamping."],
+["XLOOKUP","Find","Intermediate","Finds a value and returns the related value.","=XLOOKUP(A2,E:E,F:F)","Employee, account and product lookup."],
+["XMATCH","Find","Advanced","Returns the relative position of an item.","=XMATCH(A2,E:E)","Flexible lookup logic."],
+["VLOOKUP","Find","Intermediate","Looks up a value vertically.","=VLOOKUP(A2,E:F,2,FALSE)","Classic finance lookup."],
+["HLOOKUP","Find","Intermediate","Looks up a value horizontally.","=HLOOKUP(B1,B2:M3,2,FALSE)","Period-based tables."],
+["INDEX","Find","Intermediate","Returns a value at a row/column position.","=INDEX(F:F,MATCH(A2,E:E,0))","Flexible lookups."],
+["MATCH","Find","Intermediate","Returns the position of a value.","=MATCH(A2,E:E,0)","Build dynamic lookups."],
+["LOOKUP","Find","Intermediate","Finds a value in a vector.","=LOOKUP(A2,E:E,F:F)","Legacy lookup models."],
+["FILTER","Find","Intermediate","Returns records meeting criteria.","=FILTER(A2:D100,C2:C100=\"Sales\")","Dynamic finance reports."],
+["SORT","Find","Intermediate","Sorts a range.","=SORT(A2:D100,4,-1)","Rank/report data."],
+["SORTBY","Find","Intermediate","Sorts one range by another.","=SORTBY(A2:D100,D2:D100,-1)","Flexible reporting."],
+["UNIQUE","Find","Intermediate","Returns unique values.","=UNIQUE(C2:C100)","Unique departments/accounts."],
+["SEQUENCE","Calculate","Intermediate","Generates a sequence of numbers.","=SEQUENCE(12)","Period/model setup."],
+["LET","Calculate","Advanced","Names intermediate calculations inside a formula.","=LET(x,B2*C2,x*(1-D2))","Readable complex models."],
+["PMT","Finance","Intermediate","Calculates periodic loan payment.","=PMT(rate,nper,pv)","Debt and financing."],
+["PV","Finance","Intermediate","Calculates present value.","=PV(rate,nper,pmt)","Valuation and financing."],
+["FV","Finance","Intermediate","Calculates future value.","=FV(rate,nper,pmt)","Savings and projections."],
+["NPV","Finance","Advanced","Calculates net present value for periodic cash flows.","=NPV(rate,B2:F2)+A2","Investment appraisal."],
+["IRR","Finance","Advanced","Calculates internal rate of return.","=IRR(B2:F2)","Project/investment analysis."],
+["XIRR","Finance","Advanced","Calculates IRR using actual dates.","=XIRR(B2:B10,A2:A10)","Irregular cash flows."],
+["XNPV","Finance","Advanced","Calculates NPV using actual dates.","=XNPV(rate,B2:B10,A2:A10)","Valuation with dated cash flows."],
+["RATE","Finance","Advanced","Returns the interest rate per period.","=RATE(nper,pmt,pv)","Debt analysis."],
+["IPMT","Finance","Advanced","Returns interest payment for a period.","=IPMT(rate,per,nper,pv)","Loan schedules."],
+["PPMT","Finance","Advanced","Returns principal payment for a period.","=PPMT(rate,per,nper,pv)","Loan schedules."],
+["SLN","Finance","Intermediate","Straight-line depreciation.","=SLN(cost,salvage,life)","Fixed asset depreciation."],
+["DB","Finance","Advanced","Fixed-declining balance depreciation.","=DB(cost,salvage,life,period)","Asset schedules."],
+["SYD","Finance","Advanced","Sum-of-years-digits depreciation.","=SYD(cost,salvage,life,period)","Accelerated depreciation."],
+["MEDIAN","Analyse","Intermediate","Returns the middle value.","=MEDIAN(B2:B100)","Typical transaction size."],
+["MODE","Analyse","Intermediate","Returns the most frequent value.","=MODE.SNGL(B2:B100)","Most common value."],
+["LARGE","Analyse","Intermediate","Returns the k-th largest value.","=LARGE(B2:B100,5)","Top 5 analysis."],
+["SMALL","Analyse","Intermediate","Returns the k-th smallest value.","=SMALL(B2:B100,5)","Bottom 5 analysis."],
+["RANK","Analyse","Intermediate","Ranks a number within a list.","=RANK(B2,B:B,0)","Sales/performance ranking."],
+["QUARTILE","Analyse","Intermediate","Returns a quartile of a dataset.","=QUARTILE.INC(B2:B100,3)","Distribution analysis."],
+["CORREL","Analyse","Advanced","Returns correlation between two datasets.","=CORREL(B2:B20,C2:C20)","Relationship analysis."],
+["FORECAST","Analyse","Advanced","Predicts a future value using linear regression.","=FORECAST.LINEAR(x,y_range,x_range)","Forecasting."],
+["TREND","Analyse","Advanced","Returns values along a linear trend.","=TREND(y_range,x_range)","Planning and forecasts."],
+["GROWTH","Analyse","Advanced","Fits exponential growth.","=GROWTH(y_range,x_range)","Revenue/volume growth."]
+];
+
+const levels=[
+["Excel Survival","Formula structure, references, brackets, AutoSum and formula visibility",6],
+["Core Calculations","Math and basic finance calculations",12],
+["Percentages","Growth, margin, markup and variance",10],
+["Logic","IF, AND, OR, IFS and error handling",8],
+["Data Cleaning","Text and formatting functions",14],
+["Dates","Reporting calendars and working days",13],
+["Lookup Mastery","XLOOKUP, VLOOKUP, INDEX/MATCH and XMATCH",12],
+["Conditional Analysis","SUMIFS, COUNTIFS, SUMPRODUCT and SUBTOTAL",9],
+["Financial Analysis","PMT, PV, NPV, IRR and depreciation",12],
+["Statistics","Descriptive statistics and forecasting",10],
+["Reporting","Pivot concepts, sorting, subtotals and auditing",8],
+["Financial Modelling","Integrated revenue, EBITDA, cash flow and scenarios",8]
+];
+
+const missions=[
+["Monthly Expense Report","FP&A","Hard","Use SUMIFS to calculate Sales department spend for January.","SUMIFS","100 XP"],
+["Employee Lookup","MIS","Medium","Find an employee's salary from an ID using XLOOKUP.","XLOOKUP","75 XP"],
+["Month-End Close","Accounting","Medium","Return the month-end date for a reporting date using EOMONTH.","EOMONTH","75 XP"],
+["Working Days","Corporate Finance","Medium","Calculate the number of working days between two dates.","NETWORKDAYS","75 XP"],
+["Investment Case","Investment Banking","Hard","Calculate project IRR from a series of cash flows.","XIRR","150 XP"]
+];
+
+let state=JSON.parse(localStorage.getItem("excshala_state")||'{"xp":1240,"streak":7,"learned":18,"saved":[],"view":"home"}');
+function save(){localStorage.setItem("excshala_state",JSON.stringify(state))}
+function toast(msg){let t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(()=>t.style.display="none",1800)}
+function go(v){state.view=v;save();render()}
+const nav=[["home","⌂","Home"],["learn","◉","Learn"],["formulas","⌕","Formulas"],["missions","◎","Missions"],["profile","♙","Profile"]];
+function navHtml(){
+ document.getElementById("sideNav").innerHTML=nav.map(x=>`<button class="${state.view===x[0]?'active':''}" onclick="go('${x[0]}')">${x[1]} &nbsp; ${x[2]}</button>`).join("");
+ document.getElementById("mobileNav").innerHTML=nav.slice(0,5).map(x=>`<button class="${state.view===x[0]?'active':''}" onclick="go('${x[0]}')">${x[1]}<br>${x[2]}</button>`).join("");
+}
+function header(title,sub=""){return `<div class="top"><div><h1>${title}</h1>${sub?`<div class="muted">${sub}</div>`:""}</div><div class="pills"><span class="pill">🔥 ${state.streak} day streak</span><span class="pill gold">⭐ ${state.xp.toLocaleString()} XP</span></div></div>`}
+function home(){
+ let pct=Math.min(100,Math.round(state.learned/60*100));
+ return header("Good morning 👋","Ready for a little Excel practice?")+`
+ <div class="grid">
+ <section class="card hero col8"><div class="pills"><span class="pill" style="background:rgba(255,255,255,.15);color:#fff">Level 4 · Excel Analyst</span></div>
+ <h2 style="margin-top:14px">Continue Learning</h2><p class="muted">Lookup Mastery · XLOOKUP → INDEX + MATCH</p>
+ <div class="progress"><i style="width:${pct}%"></i></div><small>${state.learned}/60 skills practiced</small><br><button class="btn" style="margin-top:14px;background:#fff;color:var(--deep)" onclick="go('learn')">Continue →</button></section>
+ <section class="card col4"><h3>⚡ Daily Challenge</h3><p class="muted">Solve one real finance problem in under 5 minutes.</p><div class="statrow"><div class="stat"><b>+50</b><small>XP</small></div><div class="stat"><b>5 min</b><small>Goal</small></div></div><button class="btn primary" style="margin-top:15px" onclick="go('missions')">Start challenge</button></section>
+ <section class="card col8"><h2>🔎 Find a Formula</h2><p class="muted">Search by formula, task or finance problem.</p><div class="search"><input id="homeSearch" placeholder='Try "find employee salary" or "working days"'><button class="btn primary" onclick="searchFrom('homeSearch')">Search</button></div></section>
+ <section class="card col4"><h3>Your progress</h3><div class="statrow"><div class="stat"><b>${state.learned}</b><small>Skills</small></div><div class="stat"><b>${state.saved.length}</b><small>Saved</small></div></div></section>
+ <section class="card col12"><h2>Quick access</h2><div class="pills"><button class="btn secondary" onclick="go('formulas')">📚 Formula Library</button><button class="btn secondary" onclick="go('missions')">💼 Finance Missions</button><button class="btn secondary" onclick="go('profile')">🧰 My Toolbox</button></div></section>
+ </div>`;
+}
+function learn(){
+ return header("Learn","Your journey from Excel beginner to finance power user.")+
+ `<div class="card"><div class="tabs"><button class="active">Path</button><button onclick="toast('All levels coming next')">All Levels</button></div>`+
+ levels.map((l,i)=>`<div class="level"><div class="num">${i}</div><div class="grow"><h3>${l[0]}</h3><div class="muted">${l[1]}</div><div class="progress"><i style="width:${Math.min(100,(i<2?70-i*18:0))}%"></i></div></div><span class="pill">${i<2?'In progress':'Locked'}</span></div>`).join("")+
+ `</div>`;
+}
+function searchFrom(id){go("formulas");setTimeout(()=>{let q=document.getElementById("formulaSearch"); if(q){q.value=document.getElementById(id)?.value||"";filterFormulas()}},0)}
+function formulasPage(){
+ return header("Formula Library","Find the right formula, understand it, then try it yourself.")+
+ `<div class="card"><div class="search"><input id="formulaSearch" oninput="filterFormulas()" placeholder='Search "XLOOKUP", "find employee", "working days"...'><button class="btn secondary" onclick="document.getElementById('formulaSearch').value='';filterFormulas()">Clear</button></div>
+ <div class="tabs" id="catTabs"></div><div id="formulaResults"></div></div>`;
+}
+function filterFormulas(){
+ let q=(document.getElementById("formulaSearch")?.value||"").toLowerCase(), cat=window.formulaCat||"All";
+ let data=formulas.filter(f=>(cat==="All"||f[1]===cat)&&(!q||f.join(" ").toLowerCase().includes(q)));
+ document.getElementById("catTabs").innerHTML=["All",...new Set(formulas.map(f=>f[1]))].map(c=>`<button class="${cat===c?'active':''}" onclick="window.formulaCat='${c}';filterFormulas()">${c}</button>`).join("");
+ document.getElementById("formulaResults").innerHTML=data.length?`<div class="formula-list">${data.map(f=>`<div class="formula"><div><b>${f[0]}</b><div class="muted">${f[3]}</div><div class="pills" style="margin-top:7px"><span class="pill green">${f[1]}</span><span class="pill">${f[2]}</span></div></div><button class="btn secondary" onclick="openFormula('${f[0]}')">View</button></div>`).join("")}</div>`:`<div class="empty">No matching formulas. Try a broader task like “lookup”, “date”, “sum” or “salary”.</div>`;
+}
+function openFormula(name){
+ let f=formulas.find(x=>x[0]===name);if(!f)return;
+ document.getElementById("view").innerHTML=header(f[0],`${f[1]} · ${f[2]}`)+`<div class="grid">
+ <section class="card col8"><div class="pills"><span class="pill green">${f[1]}</span><span class="pill">${f[2]}</span><span class="pill gold">★★★★★</span></div>
+ <h2 style="margin-top:15px">What it does</h2><p>${f[3]}</p>
+ <h3>Syntax</h3><div class="card" style="background:#F5F8F5"><code>${f[4]}</code></div>
+ <h3 style="margin-top:18px">Finance use</h3><p>${f[5]}</p>
+ <h3>Try it yourself</h3><textarea id="formulaInput" placeholder="Type or paste an Excel formula here...">${f[4]}</textarea>
+ <button class="btn primary" style="margin-top:10px" onclick="checkFormula('${name}')">Check formula</button>
+ <button class="btn secondary" style="margin-top:10px" onclick="toggleSave('${name}')">${state.saved.includes(name)?"★ Saved":"☆ Save to toolbox"}</button>
+ </section>
+ <section class="card col4"><h3>Quick example</h3><p class="muted">Employee ID → Salary</p><table><tr><th>ID</th><th>Salary</th></tr><tr><td>101</td><td>50,000</td></tr><tr><td>102</td><td>65,000</td></tr><tr><td>103</td><td>80,000</td></tr></table><div class="card" style="margin-top:14px;background:#F1FAF3"><b>Pro tip 💡</b><p class="muted">Use the formula to solve a real task, not just memorise its syntax.</p></div></section>
+ </div><div class="card" style="margin-top:16px"><h3>Related formulas</h3><div class="pills">${formulas.filter(x=>x[1]===f[1]&&x[0]!==name).slice(0,6).map(x=>`<button class="pill" onclick="openFormula('${x[0]}')">${x[0]}</button>`).join("")}</div></div>`;
+}
+function checkFormula(name){let f=formulas.find(x=>x[0]===name), val=(document.getElementById("formulaInput").value||"").replace(/\s/g,"").toUpperCase(), target=f[4].replace(/\s/g,"").toUpperCase(); if(val.startsWith("="+name) || val===target){state.xp+=20;state.learned=Math.min(60,state.learned+1);save();toast("Nailed it! +20 XP 🎉");}else toast("Almost there — check the function name and arguments.");}
+function toggleSave(name){if(state.saved.includes(name))state.saved=state.saved.filter(x=>x!==name);else state.saved.push(name);save();openFormula(name)}
+function missions(){
+ return header("Finance Missions","Solve realistic workplace problems and earn XP.")+
+ `<div class="grid">${missions.map((m,i)=>`<section class="card mission col6"><span class="badge">${m[1]}</span><h2 style="margin-top:10px">${m[0]}</h2><p>${m[3]}</p><div class="pills"><span class="pill">${m[2]}</span><span class="pill gold">${m[5]}</span></div><button class="btn primary" style="margin-top:15px" onclick="startMission(${i})">Start Mission →</button></section>`).join("")}</div>`;
+}
+function startMission(i){let m=missions[i];document.getElementById("view").innerHTML=header(m[0],`${m[1]} · ${m[2]}`)+`<div class="grid"><section class="card col8"><div class="pills"><span class="pill purple">💼 Real Work</span><span class="pill gold">${m[5]}</span></div><h2 style="margin-top:15px">Your manager asks:</h2><p style="font-size:18px">${m[3]}</p><h3>Your formula</h3><textarea id="missionInput" placeholder="Enter your Excel formula..."></textarea><button class="btn primary" style="margin-top:10px" onclick="submitMission(${i})">Check Answer</button></section><section class="card col4"><h3>Mission steps</h3><ol><li>Understand the requirement</li><li>Pick the right function</li><li>Build the formula</li><li>Check the result</li></ol></section></div>`}
+function submitMission(i){let m=missions[i],v=(document.getElementById("missionInput").value||"").toUpperCase();if(v.includes(m[4])){let xp=parseInt(m[5]);state.xp+=xp;state.learned=Math.min(60,state.learned+1);save();document.getElementById("view").innerHTML=header("Nailed it! 🎉","Mission complete.")+`<div class="card" style="text-align:center;padding:45px"><div style="font-size:60px">🏆</div><h2>Great work</h2><p class="muted">You used ${m[4]} to solve a real finance problem.</p><div class="statrow" style="justify-content:center"><div class="stat"><b>+${xp}</b><small>XP earned</small></div><div class="stat"><b>${state.xp}</b><small>Total XP</small></div></div><button class="btn primary" style="margin-top:18px" onclick="go('missions')">Next mission</button></div>`}else toast("Not quite — look at the task and choose the matching function.");}
+function profile(){
+ return header("Your Profile","Build your personal Excel toolbox.")+`<div class="grid">
+ <section class="card col4"><h2>Excel Analyst</h2><p class="muted">Level 4</p><div class="progress"><i style="width:64%"></i></div><div class="statrow"><div class="stat"><b>${state.xp.toLocaleString()}</b><small>Total XP</small></div><div class="stat"><b>🔥 ${state.streak}</b><small>Streak</small></div></div></section>
+ <section class="card col8"><h2>🧰 My Formula Toolbox</h2><p class="muted">Your saved go-to formulas.</p>${state.saved.length?`<div class="formula-list">${state.saved.map(n=>{let f=formulas.find(x=>x[0]===n);return `<div class="formula"><div><b>${n}</b><div class="muted">${f?f[3]:"Saved formula"}</div></div><button class="btn secondary" onclick="openFormula('${n}')">Open</button></div>`}).join("")}</div>`:`<div class="empty">Save formulas from the Formula Library and they will appear here.</div>`}</section>
+ <section class="card col12"><h2>Badges</h2><div class="pills"><span class="pill green">🌱 Excel Starter</span><span class="pill gold">🔥 7 Day Streak</span><span class="pill purple">💼 Finance Explorer</span><span class="pill">🔎 Lookup Rookie</span></div></section>
+ </div>`;
+}
+function render(){navHtml();let v=state.view||"home";document.getElementById("view").innerHTML=v==="home"?home():v==="learn"?learn():v==="formulas"?formulasPage():v==="missions"?missions():profile();if(v==="formulas")filterFormulas()}
+window.formulaCat="All";render();
+</script>
+</body>
+</html>
