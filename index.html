@@ -224,7 +224,7 @@ function openFormula(name){
 }
 function checkFormula(name){let f=formulas.find(x=>x[0]===name), val=(document.getElementById("formulaInput").value||"").replace(/\s/g,"").toUpperCase(), target=f[4].replace(/\s/g,"").toUpperCase(); if(val.startsWith("="+name) || val===target){state.xp+=20;state.learned=Math.min(60,state.learned+1);save();toast("Nailed it! +20 XP 🎉");}else toast("Almost there — check the function name and arguments.");}
 function toggleSave(name){if(state.saved.includes(name))state.saved=state.saved.filter(x=>x!==name);else state.saved.push(name);save();openFormula(name)}
-function missions(){
+function missionsPage(){
  return header("Finance Missions","Solve realistic workplace problems and earn XP.")+
  `<div class="grid">${missions.map((m,i)=>`<section class="card mission col6"><span class="badge">${m[1]}</span><h2 style="margin-top:10px">${m[0]}</h2><p>${m[3]}</p><div class="pills"><span class="pill">${m[2]}</span><span class="pill gold">${m[5]}</span></div><button class="btn primary" style="margin-top:15px" onclick="startMission(${i})">Start Mission →</button></section>`).join("")}</div>`;
 }
@@ -237,7 +237,7 @@ function profile(){
  <section class="card col12"><h2>Badges</h2><div class="pills"><span class="pill green">🌱 Excel Starter</span><span class="pill gold">🔥 7 Day Streak</span><span class="pill purple">💼 Finance Explorer</span><span class="pill">🔎 Lookup Rookie</span></div></section>
  </div>`;
 }
-function render(){navHtml();let v=state.view||"home";document.getElementById("view").innerHTML=v==="home"?home():v==="learn"?learn():v==="formulas"?formulasPage():v==="missions"?missions():profile();if(v==="formulas")filterFormulas()}
+function render(){navHtml();let v=state.view||"home";document.getElementById("view").innerHTML=v==="home"?home():v==="learn"?learn():v==="formulas"?formulasPage():v==="missions"?missionsPage():profile();if(v==="formulas")filterFormulas()}
 window.formulaCat="All";render();
 </script>
 </body>
